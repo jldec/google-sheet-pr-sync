@@ -1,4 +1,4 @@
-// from https://grok.com/share/bGVnYWN5_4c0782ef-c362-477f-b20b-2c0c995e2e37
+// https://grok.com/share/bGVnYWN5_d06f3da5-92c5-487d-8b04-0bd6011948e7
 function doGet(e) {
   try {
     var sheet = SpreadsheetApp.getActiveSpreadsheet().getSheetByName("Sheet1");
@@ -34,15 +34,28 @@ function doPost(e) {
   try {
     // Parse incoming JSON data (expecting an array of objects)
     var paramsArray = JSON.parse(e.postData.contents);
-    if (!Array.isArray(paramsArray)) {
-      throw new Error("Input must be an array of objects");
+    if (!Array.isArray(paramsArray) || paramsArray.length === 0) {
+      throw new Error("Input must be a non-empty array of objects");
     }
 
     var sheet = SpreadsheetApp.getActiveSpreadsheet().getSheetByName("Sheet1");
 
-    // Get header row (assumes headers are in row 1)
-    var headers = sheet.getRange(1, 1, 1, sheet.getLastColumn()).getValues()[0];
-    var lowerHeaders = headers.map(function(h) { return h.toString().toLowerCase(); });
+    // Check if sheet is empty (no headers in row 1)
+    var headers = [];
+    var lowerHeaders = [];
+    if (sheet.getLastRow() === 0 || sheet.getRange(1, 1, 1, sheet.getLastColumn()).getValues()[0].every(cell => cell === "")) {
+      // Create headers from the first object's keys, verbatim
+      headers = Object.keys(paramsArray[0]);
+      if (!headers.includes("id") && !headers.some(h => h.toLowerCase() === "id")) {
+        throw new Error("JSON object must include an 'id' key for the ID column");
+      }
+      sheet.getRange(1, 1, 1, headers.length).setValues([headers]);
+      lowerHeaders = headers.map(function(h) { return h.toString().toLowerCase(); });
+    } else {
+      // Get existing header row
+      headers = sheet.getRange(1, 1, 1, sheet.getLastColumn()).getValues()[0];
+      lowerHeaders = headers.map(function(h) { return h.toString().toLowerCase(); });
+    }
 
     var idColumnIndex = lowerHeaders.indexOf("id");
     if (idColumnIndex === -1) {

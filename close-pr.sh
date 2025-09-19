@@ -9,7 +9,7 @@ fi
 if [ "$1" = "--all" ]; then
     echo "Closing all open PRs..."
     # Get all open PR numbers
-    pr_numbers=$(gh pr list --json number --jq '.[].number' -s open)
+    pr_numbers=$(gh pr list -L 1000 --json number --jq '.[].number' -s open)
 
     if [ -z "$pr_numbers" ]; then
         echo "No open PRs found"

@@ -1,0 +1,14 @@
+#!/bin/bash
+
+WEB_APP_URL="https://script.google.com/macros/s/AKfycbxKHau5pIi3_JjIR_plrU-GiFIRxRAF2Z8c0pingMauuBgUyS60NVB0i-HrdyheEb1u/exec"
+
+if [ $# -eq 0 ] || [[ "$1" != "sync" && "$1" != "get" ]]; then
+    echo "Usage: $0 <sync|get>"
+    exit 1
+fi
+
+if [ "$1" = "sync" ]; then
+    ./list-prs.sh --json | curl -L -H "Content-Type: application/json" -d @- "$WEB_APP_URL"
+else
+    curl -L "$WEB_APP_URL"
+fi
