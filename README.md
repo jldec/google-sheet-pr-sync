@@ -58,5 +58,17 @@ Use the `close-pr.sh` script to close pull requests:
 
 The script deletes the branch after closing the PR using the `-d` flag.
 
+## Google sheet
+test sheet
+https://docs.google.com/spreadsheets/d/1xyRHC2T34sxOBB4ZwyVdJmcELVRlQpJnJ7oJ4pVefh4/edit
+
+### Merge PR Data with sheet
+`./list-prs.sh --json | curl -L -H "Content-Type: application/json" -d @- https://script.google.com/macros/s/AKfycbymU50bLU9PuRl6dyYzkAF1DOoujBnsu1cWQlV78FWHUkZ-_6N9Wl87MyVani8mQwD5NQ/exec`
+
+### GET JSON data from sheet
+`curl -L https://script.google.com/macros/s/AKfycbymU50bLU9PuRl6dyYzkAF1DOoujBnsu1cWQlV78FWHUkZ-_6N9Wl87MyVani8mQwD5NQ/exec`
+
+
+
 ## More tips
 - To show the available PR fields, run `gh pr list --json`
