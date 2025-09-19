@@ -1,8 +1,8 @@
 # GitHub PR sync example
-Demo scripts for syncing GitHub PRs with a Google sheet.
+Demo scripts for syncing GitHub PRs with a Google sheet.  
 Context: https://x.com/willccbb/status/1968371980484460953
 
-Shell scripts were developed using Amp - [thread-1](https://ampcode.com/threads/T-3cd81dfc-3569-4154-8b9e-7c89da9260cc), [thread-2](https://ampcode.com/threads/T-9f0d37fd-68db-4828-814a-26b1095a0ad5), [thread-3](https://ampcode.com/threads/T-5eccdc48-f5d2-48a8-969f-da184b540a42)
+Shell scripts were developed using Amp - [thread-1](https://ampcode.com/threads/T-3cd81dfc-3569-4154-8b9e-7c89da9260cc), [thread-2](https://ampcode.com/threads/T-9f0d37fd-68db-4828-814a-26b1095a0ad5), [thread-3](https://ampcode.com/threads/T-5eccdc48-f5d2-48a8-969f-da184b540a42)  
 The google apps script was developed using grok - [thread](https://grok.com/c/fc1a62af-93a0-4b5c-a2ac-720adad7247b).
 
 ## Overview
@@ -52,9 +52,7 @@ ID	state	title	isDraft	createdAt	updatedAt	url
 $ ./sheet.sh sync
 {"status":"success","message":"Data processed and sorted","updatedIds":[],"insertedIds":[5,4,3,2,1]}
 
-$ close-pr --all
--bash: close-pr: command not found
-jurgen@jldec.me main ~/amp/pr-test-repo-2$ ./close-pr.sh --all
+$ ./close-pr.sh --all
 Closing all open PRs...
 Closing PR #5...
 ✓ Closed pull request jldec/pr-test-repo-2#5 (test_5)
@@ -92,6 +90,9 @@ Created PR for test1_1
 $ ./sheet.sh sync
 {"status":"success","message":"Data processed and sorted","updatedIds":[],"insertedIds":[6]}
 ```
+
+<img width="1029" height="383" alt="Screenshot 2025-09-19 at 18 24 10" src="https://github.com/user-attachments/assets/f11265c0-1be7-411d-8c74-9c9ef8e7b8ab" />
+
 
 ## Creating Test PRs
 Use the `create-pr.sh` script to create test pull requests:
