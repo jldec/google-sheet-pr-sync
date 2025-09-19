@@ -32,13 +32,17 @@ The script must be run from the `main` branch and creates:
 
 ## Listing PRs
 
-Use the `list-prs.sh` script to list all pull requests in space-separated format:
+Use the `list-prs.sh` script to list all pull requests:
 
 ```bash
+# Tab-separated format with header row
 ./list-prs.sh
+
+# JSON format
+./list-prs.sh --json
 ```
 
-This outputs PR number, state, and title for all PRs (including closed/merged ones).
+Outputs ID, state, title, isDraft, createdAt, updatedAt, and url for all PRs (including closed/merged ones).
 
 ## Closing PRs
 
@@ -54,3 +58,5 @@ Use the `close-pr.sh` script to close pull requests:
 
 The script deletes the branch after closing the PR using the `-d` flag.
 
+## More tips
+- To show the available PR fields, run `gh pr list --json`

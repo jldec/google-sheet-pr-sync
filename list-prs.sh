@@ -1,3 +1,11 @@
 #!/bin/bash
-gh pr list --json number,state,title --template '{{range .}}{{.number}} {{.state}} {{.title}}
+
+if [ "$1" = "--json" ]; then
+    # Output JSON format, rename 'number' field to 'id'
+    gh pr list --json number,state,title,isDraft,createdAt,updatedAt,url -s all | jq 'map(.id = .number | del(.number))'
+else
+    # Output tab-separated format with header
+    echo -e "ID\tstate\ttitle\tisDraft\tcreatedAt\tupdatedAt\turl"
+    gh pr list --json number,state,title,isDraft,createdAt,updatedAt,url --template '{{range .}}{{.number}}	{{.state}}	{{.title}}	{{.isDraft}}	{{.createdAt}}	{{.updatedAt}}	{{.url}}
 {{end}}' -s all
+fi
