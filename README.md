@@ -40,3 +40,17 @@ Use the `list-prs.sh` script to list all pull requests in space-separated format
 
 This outputs PR number, state, and title for all PRs (including closed/merged ones).
 
+## Closing PRs
+
+Use the `close-pr.sh` script to close pull requests:
+
+```bash
+# Close a specific PR by number
+./close-pr.sh <pr-number>
+
+# Close all open PRs
+./close-pr.sh --all
+```
+
+The script deletes the branch after closing the PR using the `-d` flag.
+
