@@ -30,3 +30,13 @@ The script must be run from the `main` branch and creates:
 - A commit and push to origin
 - A GitHub pull request
 
+## Listing PRs
+
+Use the `list-prs.sh` script to list all pull requests in space-separated format:
+
+```bash
+./list-prs.sh
+```
+
+This outputs PR number, state, and title for all PRs (including closed/merged ones).
+
