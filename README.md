@@ -1,11 +1,19 @@
 # GitHub PR sync example
-This is a demo of using shell scripts and a google Apps script to sync GitHub PRs with a Google sheet. Context: https://x.com/willccbb/status/1968371980484460953
+This is a demo of using shell scripts and a google Apps script to sync GitHub PRs with a Google sheet.
 
-Shell scripts were developed using Amp - threads [1](https://ampcode.com/threads/T-3cd81dfc-3569-4154-8b9e-7c89da9260cc), [2](https://ampcode.com/threads/T-9f0d37fd-68db-4828-814a-26b1095a0ad5), [3](https://ampcode.com/threads/T-5eccdc48-f5d2-48a8-969f-da184b540a42), and [4](https://ampcode.com/threads/T-9fafe09f-9d85-4c01-af71-176c5c37b0a0), The google Apps script was developed using grok - [thread](https://grok.com/c/fc1a62af-93a0-4b5c-a2ac-720adad7247b).
+The idea came from this [tweet](https://x.com/willccbb/status/1968371980484460953)
+<img width="1157" height="582" alt="Screenshot 2025-09-20 at 16 13 28" src="https://github.com/user-attachments/assets/89d198c4-ba53-45f5-92e0-12ab96c6b14c" />
+
+Even though the thread above is looking for a no-code solution, this code provides a working example which helps to identify integration decision details and guage the complexity of the task. It also serves as a handy set of tools to evaluate alternative approaches.
+
+All the shell scripts were developed using Amp - threads [1](https://ampcode.com/threads/T-3cd81dfc-3569-4154-8b9e-7c89da9260cc), [2](https://ampcode.com/threads/T-9f0d37fd-68db-4828-814a-26b1095a0ad5), [3](https://ampcode.com/threads/T-5eccdc48-f5d2-48a8-969f-da184b540a42), and [4](https://ampcode.com/threads/T-9fafe09f-9d85-4c01-af71-176c5c37b0a0). The google Apps script was developed using Grok - [thread](https://grok.com/c/fc1a62af-93a0-4b5c-a2ac-720adad7247b).
 
 ## Overview
-1. Shell scripts `create-pr`, `close-pr`, and `list-prs` were designed to be run on the main branch of a cloned repo. `list-prs` extracts PR data from GitHub using the `gh` CLI. It can output JSON (e.g. for piping to the sheet) or tab-delimited text for command line convenience.
-2. The `sheet sync` script POSTs JSON PR data to the `google-apps-script.js` which has to be installed as an [apps script](https://developers.google.com/apps-script) on the google sheet. The POST handler in the apps script compares incoming PRs to existing rows in the sheet and syncs those which are new or changed. 
+Shell scripts `create-pr`, `close-pr`, and `list-prs` are meant to be run from the main branch of a cloned repo. 
+
+Calling `./list-prs` extracts the PR data from GitHub using the `gh` CLI. It can output JSON or tab-delimited text.
+
+Calling `./sheet sync` invokes `list-prs` and pipes the JSON output into curl, which POSTs the data to the google [Apps script](https://developers.google.com/apps-script) installed as a Web App on the sheet. The Apps script compares incoming PRs to existing rows in the sheet and syncs those which are new or changed. 
 
 ## Prerequisites
 Ensure that you have to the following command line utilities
