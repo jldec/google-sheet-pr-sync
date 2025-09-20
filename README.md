@@ -1,9 +1,7 @@
 # GitHub PR sync example
-Demo scripts for syncing GitHub PRs with a Google sheet.  
-Context: https://x.com/willccbb/status/1968371980484460953
+Demo scripts for syncing GitHub PRs with a Google sheet. Context: https://x.com/willccbb/status/1968371980484460953
 
-Shell scripts were developed using Amp - [thread-1](https://ampcode.com/threads/T-3cd81dfc-3569-4154-8b9e-7c89da9260cc), [thread-2](https://ampcode.com/threads/T-9f0d37fd-68db-4828-814a-26b1095a0ad5), [thread-3](https://ampcode.com/threads/T-5eccdc48-f5d2-48a8-969f-da184b540a42)  
-The google apps script was developed using grok - [thread](https://grok.com/c/fc1a62af-93a0-4b5c-a2ac-720adad7247b).
+Shell scripts were developed using Amp - threads [1](https://ampcode.com/threads/T-3cd81dfc-3569-4154-8b9e-7c89da9260cc), [2](https://ampcode.com/threads/T-9f0d37fd-68db-4828-814a-26b1095a0ad5), [3](https://ampcode.com/threads/T-5eccdc48-f5d2-48a8-969f-da184b540a42), and [4](https://ampcode.com/threads/T-9fafe09f-9d85-4c01-af71-176c5c37b0a0), The google apps script was developed using grok - [thread](https://grok.com/c/fc1a62af-93a0-4b5c-a2ac-720adad7247b).
 
 ## Overview
 1. Shell scripts `create-pr`, `close-pr`, and `list-prs` designed to be run on the main branch of a cloned repo.
@@ -94,6 +92,22 @@ $ ./sheet sync
 <img width="1029" height="383" alt="Screenshot 2025-09-19 at 18 24 10" src="https://github.com/user-attachments/assets/f11265c0-1be7-411d-8c74-9c9ef8e7b8ab" />
 
 
+## To merge PR Data from GitHub into the sheet
+```bash
+./sheet sync
+```
+
+## To fetch JSON data from the sheet
+```bash
+./sheet get
+```
+
+## Tips
+- You can rearrange or add/remove columns in the sheet.
+- mapping from JSON keys to column names is case insensitive
+- To show the available PR fields, run `gh pr list --json`
+- NOTE: There is currently no access control on the apps script.
+
 ## Creating Test PRs
 Use the `create-pr` script to create test pull requests - examples:
 
@@ -136,24 +150,3 @@ Use the `close-pr` script to close PRs
 ```
 
 The script deletes the branch after closing the PR using the `-d` flag.
-
-## Google sheet
-test sheet
-https://docs.google.com/spreadsheets/d/1xyRHC2T34sxOBB4ZwyVdJmcELVRlQpJnJ7oJ4pVefh4/edit
-
-
-### To merge PR Data from GitHub into the sheet
-```bash
-./sheet sync
-```
-
-### To fetch JSON data from the sheet
-```bash
-./sheet get
-```
-
-## Tips
-- You can rearrange or add/remove columns in the sheet.
-- mapping from JSON keys to column names is case insensitive
-- To show the available PR fields, run `gh pr list --json`
-- NOTE: There is currently no access control on the apps script.
