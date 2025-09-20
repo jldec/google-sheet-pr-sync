@@ -13,28 +13,28 @@ Shell scripts `create-pr`, `close-pr`, and `list-prs` are meant to be run from t
 
 Calling `./list-prs` extracts the PR data from GitHub using the `gh` CLI. It can output JSON or tab-delimited text.
 
-Calling `./sheet sync` invokes `list-prs` and pipes the JSON output into curl, which POSTs the data to the google [Apps script](https://developers.google.com/apps-script) installed as a Web App on the sheet. The Apps script compares incoming PRs to existing rows in the sheet and syncs those which are new or changed. 
+Calling `./sheet sync` invokes `list-prs` and pipes the JSON output into curl, which POSTs the data to the google Apps script installed as a Web App on the sheet. The Apps script compares incoming PRs to existing rows in the sheet and syncs those which are new or changed. 
 
 ## Prerequisites
 Ensure that you have to the following command line utilities
-- curl
-- gh from https://cli.github.com/
-- jq from https://jqlang.org/download/
+- [curl](https://curl.se/)
+- [gh](https://cli.github.com/)
+- [jq](https://jqlang.org/download/)
 
-## repo scripts
-- Copy the 4 scripts into the root of your repo
+## Install shell scripts
+- Copy the 4 shell scripts into the root of your repo
 
-## Google sheet installation
+## Prepare Google sheet and install Apps script
 - Go to sheets.google.com, create new spreadsheet and name it.
 - Leave the sheet empty for automatic header-row creation on first sync.
-- Share with edit access “Anyone with the link” (for public access).
+- Share with edit access “Anyone with the link” for public access.
 - Click Extensions > Apps Script.
 - Replace the default code with the contents of `google-apps-script.js`.
 - Click Deploy > New deployment.
 - Select Type > Web app.
-- Provide description, Set execute as me, anyone access.
+- Provide description, set execute as me, anyone access.
 - Click Deploy, confirm permissions
-- Copy the Web App URL into `sheet` WEB_APP_URL.
+- Copy the Web App URL into the `sheet` script, replacing WEB_APP_URL.
 
 ## Example
 https://docs.google.com/spreadsheets/d/1Z087r5rTkvivT3sjDW70pfkfzib4DCjBJ5b0Cx-fAZg/edit
@@ -152,6 +152,9 @@ Use the `close-pr` script to close PRs
 ```bash
 # Close a specific PR by number
 ./close-pr <pr-number>
+
+## Refs
+- [Google Apps script](https://developers.google.com/apps-script)
 
 # Close all open PRs
 ./close-pr --all
