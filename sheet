@@ -1,7 +1,7 @@
 #!/bin/sh
 set -e
 
-WEB_APP_URL="https://script.google.com/macros/s/AKfycbxKHau5pIi3_JjIR_plrU-GiFIRxRAF2Z8c0pingMauuBgUyS60NVB0i-HrdyheEb1u/exec"
+WEB_APP_URL="https://script.google.com/macros/s/AKfycbyR2-zTNmdYDZmwBMc8WFSiC5oBopnJd5rNIC406t0kGDjm_1z_UuTQ9-6M9i9k558/exec"
 
 if [ $# -eq 0 ] || [[ "$1" != "sync" && "$1" != "get" ]]; then
     echo "Usage: $0 <sync|get>"

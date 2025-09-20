@@ -1,12 +1,21 @@
 #!/bin/sh
 set -e
 
+# Field names for PR data
+FIELDS="number,state,title,isDraft,createdAt,updatedAt,url"
+
+# Generate header (replace 'number' with 'ID' and commas with tabs)
+HEADER=$(echo "$FIELDS" | sed 's/number/ID/' | tr ',' '\t')
+
+# Generate template string
+TEMPLATE=$(echo "$FIELDS" | sed 's/\([^,]*\)/{{.\1}}/g' | tr ',' '\t')
+
 if [ "$1" = "--json" ]; then
     # Output JSON format, rename 'number' field to 'id'
-    gh pr list --json number,state,title,isDraft,createdAt,updatedAt,url -s all -L 1000 | jq 'map(.id = .number | del(.number))'
+    gh pr list --json $FIELDS -s all -L 1000 | jq 'map(.id = .number | del(.number))'
 else
     # Output tab-separated format with header
-    echo -e "ID\tstate\ttitle\tisDraft\tcreatedAt\tupdatedAt\turl"
-    gh pr list --json number,state,title,isDraft,createdAt,updatedAt,url --template '{{range .}}{{.number}}	{{.state}}	{{.title}}	{{.isDraft}}	{{.createdAt}}	{{.updatedAt}}	{{.url}}
-{{end}}' -s all -L 1000
+    printf "%b\n" "$HEADER"
+    gh pr list --json $FIELDS --template "{{range .}}$TEMPLATE
+{{end}}" -s all -L 1000
 fi

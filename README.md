@@ -1,40 +1,39 @@
-# GitHub PR sync example
-This is a demo of using shell scripts and a google Apps script to sync GitHub PRs with a Google sheet.
+# Google Sheet GitHub PR sync
+This is a demo of using shell scripts and a Google Apps script to sync GitHub PRs with a Google sheet.
 
 The idea came from this [tweet](https://x.com/willccbb/status/1968371980484460953)
 <img width="1157" height="582" alt="Screenshot 2025-09-20 at 16 13 28" src="https://github.com/user-attachments/assets/89d198c4-ba53-45f5-92e0-12ab96c6b14c" />
 
-Even though the thread above is looking for a no-code solution, this code provides a working example which helps to identify integration decision details and guage the complexity of the task. It also serves as a handy set of tools to evaluate alternative approaches.
+Even though the thread above is looking for a no-code solution, the "old school" code in this repo provides a baseline working example which helps to identify integration details and guage the complexity of the task. The shell scripts also serve as a toolkit for testing alternative no-code approaches.
 
-All the shell scripts were developed using Amp - threads [1](https://ampcode.com/threads/T-3cd81dfc-3569-4154-8b9e-7c89da9260cc), [2](https://ampcode.com/threads/T-9f0d37fd-68db-4828-814a-26b1095a0ad5), [3](https://ampcode.com/threads/T-5eccdc48-f5d2-48a8-969f-da184b540a42), and [4](https://ampcode.com/threads/T-9fafe09f-9d85-4c01-af71-176c5c37b0a0). The google Apps script was developed using Grok - [thread](https://grok.com/c/fc1a62af-93a0-4b5c-a2ac-720adad7247b).
+All the shell scripts were developed using Amp - threads [1](https://ampcode.com/threads/T-3cd81dfc-3569-4154-8b9e-7c89da9260cc), [2](https://ampcode.com/threads/T-9f0d37fd-68db-4828-814a-26b1095a0ad5), [3](https://ampcode.com/threads/T-5eccdc48-f5d2-48a8-969f-da184b540a42), and [4](https://ampcode.com/threads/T-9fafe09f-9d85-4c01-af71-176c5c37b0a0). The Google Apps script was developed using Grok - [thread](https://grok.com/c/fc1a62af-93a0-4b5c-a2ac-720adad7247b).
 
-## Overview
-Shell scripts `create-pr`, `close-pr`, and `list-prs` are meant to be run from the main branch of a cloned repo. 
+## How it works
+Shell scripts `create-pr`, `close-pr`, and `list-prs` use git and the `gh` CLI to manipulate PRs from within the cloned repo directory. Only `list-prs` is required for sync'ing.
 
-Calling `./list-prs` extracts the PR data from GitHub using the `gh` CLI. It can output JSON or tab-delimited text.
-
-Calling `./sheet sync` invokes `list-prs` and pipes the JSON output into curl, which POSTs the data to the google Apps script installed as a Web App on the sheet. The Apps script compares incoming PRs to existing rows in the sheet and syncs those which are new or changed. 
+Calling `./sheet sync` invokes `./list-prs --json` and pipes the JSON output into curl, which POSTs the data to the Google Apps script installed as a Web App on the Google sheet. The Apps script compares incoming PRs to existing rows in the sheet and syncs those which are new or changed.
 
 ## Prerequisites
-Ensure that you have to the following command line utilities
+This project assumes a working git and GitHub environment, and uses the following command line tools:
 - [curl](https://curl.se/)
 - [gh](https://cli.github.com/)
 - [jq](https://jqlang.org/download/)
+- `sed` and `tr`
 
 ## Install shell scripts
-- Copy the 4 shell scripts into the root of your repo
+- Copy the shell scripts (or everything from this repo) into the root of your repo
 
 ## Prepare Google sheet and install Apps script
 - Go to sheets.google.com, create new spreadsheet and name it.
+- Share with edit access for “Anyone with the link”.
 - Leave the sheet empty for automatic header-row creation on first sync.
-- Share with edit access “Anyone with the link” for public access.
 - Click Extensions > Apps Script.
 - Replace the default code with the contents of `google-apps-script.js`.
 - Click Deploy > New deployment.
 - Select Type > Web app.
-- Provide description, set execute as me, anyone access.
-- Click Deploy, confirm permissions
-- Copy the Web App URL into the `sheet` script, replacing WEB_APP_URL.
+- Provide a description, set execute as me, anyone access.
+- Click Deploy, confirm google auth permissions on the sheet.
+- Copy the Web App URL and edit the `sheet` script to set a new value for WEB_APP_URL.
 
 ## Example
 https://docs.google.com/spreadsheets/d/1Z087r5rTkvivT3sjDW70pfkfzib4DCjBJ5b0Cx-fAZg/edit
@@ -161,3 +160,6 @@ Use the `close-pr` script to close PRs
 ```
 
 The script deletes the branch after closing the PR using the `-d` flag.
+
+## Next steps
+It would be nice to publish the Google Apps script as an add-on for easy installation. The Apps script could be extended to fetch PR data using the GitHub API instead of depending on separate shell scripts (how to do GitHub auth is tbd.) The addition of an add-on sidebar UI, would make this utility installable on any sheet with just a few clicks.
