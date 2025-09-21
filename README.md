@@ -26,7 +26,7 @@ All the code was generated with AI in a matter of hours. Amp is excellent at ite
 Technical and UX judgement are still needed to guide the AI generating the code. E.g.
 
 - How to create test PRs? A simple loop is prefered over invoking a more complex script multiple times concurrently and handling the conflicts with locking.
-- How to sync with JSON? Addding rows and updating cells incrementally instead of replacing all rows.
+- How to sync with JSON? I chose to add rows and update cells incrementally, instead of overwriting the entire sheet.
 - How to make the sync more robust? Don't assume column order, make case-insensitive column name matches.
 - How to make fewer assumptions about the initial sheet? Support blank sheets.
 
