@@ -151,9 +151,3 @@ Use the `close-pr` script to close PRs. The script deletes the branch after clos
 # Close all open PRs
 ./close-pr --all
 ```
-
-## Next steps toward a low-code AI-chat solution
-1. Evaluate general-purpose MCP servers for GitHub PRs and Google sheets (like [1](https://workspacemcp.com/quick-start), [2](https://mcp.composio.dev/googlesheets), or [3](https://github.com/github/github-mcp-server)), and how to connect them.
-2. Implement a custom MCP server specifically for JSON sync with Google sheets. Start by porting the Apps script in this repo to use the externally-accessible Google [sheets api](https://developers.google.com/workspace/sheets/api/guides/concepts).
-3. Explore alternative low-code integration tools like Zapier and n8n. (see [grok thread](https://grok.com/share/bGVnYWN5_be30da93-02e9-45ff-ad55-1031dbaab587))
-
