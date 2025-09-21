@@ -14,7 +14,9 @@ The Google Apps script was developed using Grok - [thread](https://grok.com/c/fc
 ## How it works
 Shell scripts `create-pr`, `close-pr`, and `list-prs` use git and the `gh` CLI to manipulate PRs from within the cloned repo directory. Only `list-prs` is required for sync'ing.
 
-Calling `./sheet sync` invokes `./list-prs --json` and pipes the JSON output into curl, which POSTs the data to the Google Apps script installed as a Web App on the Google sheet. The Apps script compares incoming PRs to existing rows in the sheet and syncs those which are new or changed.
+Calling `./sheet sync` invokes `./list-prs --json` and pipes the JSON output into curl, which POSTs the data to the Google Apps script installed as a Web App on the Google sheet.
+
+The Apps script compares incoming PRs to existing rows in the sheet and syncs those which are new or changed.
 
 ## Takeaways
 Connecting the output of the `gh` cli with a Google Apps script was straightforward, and required very little code to achieve solid results.
