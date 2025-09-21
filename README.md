@@ -38,7 +38,7 @@ Linking to Amp threads from this README required copy-pasting links from https:/
 ### Google Apps Scripts
 Google Apps scripts are lightweight, mostly vanilla JavaScript, and quite productive, but they still feel like the dark ages after building with VS Code, Nodejs, and Cloudflare workers. No TypeScript, no Vite, no ESM modules, and git integration only possible via [clasp](https://developers.google.com/apps-script/guides/clasp).
 
-### Google Apps add-on
+### Future enhancement: Google Apps add-on
 Publishing the Google Apps script as an [add-on](https://developers.google.com/workspace/add-ons/editors/sheets) would not just simplify installation, the add on could include a sidebar UI, and the script could be extended to fetch JSON data from any HTTP api. This would enable users to configure and sync external data into their sheet with just a few clicks.
 
 ## Getting Started with this repo
