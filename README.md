@@ -4,26 +4,38 @@ This is a demo of using shell scripts and a Google Apps script to sync GitHub PR
 The idea came from this [tweet](https://x.com/willccbb/status/1968371980484460953)
 <img width="1157" height="582" alt="Screenshot 2025-09-20 at 16 13 28" src="https://github.com/user-attachments/assets/89d198c4-ba53-45f5-92e0-12ab96c6b14c" />
 
-Even though the thread above is looking for a no-code solution, the "old school" code in this repo provides a baseline working example which helps to identify integration details and guage the complexity of the task. The shell scripts also serve as a toolkit for testing alternative no-code approaches.
+Even though the thread above is looking for a no-code solution, the "old school" code in this repo provides a reliable working example which helps to identify integration details and guage the complexity of the task. The shell scripts also serve as a toolkit for testing alternative no-code approaches.
 
-All the shell scripts were developed using Amp - threads [1](https://ampcode.com/threads/T-3cd81dfc-3569-4154-8b9e-7c89da9260cc), [2](https://ampcode.com/threads/T-9f0d37fd-68db-4828-814a-26b1095a0ad5), [3](https://ampcode.com/threads/T-5eccdc48-f5d2-48a8-969f-da184b540a42), and [4](https://ampcode.com/threads/T-9fafe09f-9d85-4c01-af71-176c5c37b0a0). The Google Apps script was developed using Grok - [thread](https://grok.com/c/fc1a62af-93a0-4b5c-a2ac-720adad7247b).
+All the shell scripts were developed using Amp - threads [1](https://ampcode.com/threads/T-3cd81dfc-3569-4154-8b9e-7c89da9260cc), [2](https://ampcode.com/threads/T-9f0d37fd-68db-4828-814a-26b1095a0ad5), [3](https://ampcode.com/threads/T-5eccdc48-f5d2-48a8-969f-da184b540a42), [4](https://ampcode.com/threads/T-9fafe09f-9d85-4c01-af71-176c5c37b0a0), [5](https://ampcode.com/threads/T-77768cb7-df98-4b44-ac47-0eb2ed2d39c2).
+
+The Google Apps script was developed using Grok - [thread](https://grok.com/c/fc1a62af-93a0-4b5c-a2ac-720adad7247b).
 
 ## How it works
 Shell scripts `create-pr`, `close-pr`, and `list-prs` use git and the `gh` CLI to manipulate PRs from within the cloned repo directory. Only `list-prs` is required for sync'ing.
 
 Calling `./sheet sync` invokes `./list-prs --json` and pipes the JSON output into curl, which POSTs the data to the Google Apps script installed as a Web App on the Google sheet. The Apps script compares incoming PRs to existing rows in the sheet and syncs those which are new or changed.
 
-## Prerequisites
+## Takeaways
+- The `gh` cli, and a Google Apps script enable a solution with minimal, easy-to-understand code.
+- All the code can be generated with AI.
+- Technical engineering feedback was needed to improve the generated code. E.g.
+  - "How to sync with JSON?" Replace-all rows vs. incremental add/update rows.
+  - "How to make it robust?" Don't assume column order or case-sensitive column name matches.
+  - "How to make fewer assumptions about the existing sheet?" Support blank sheets.
+- These decisions could be packaged into a new AI Tool for syncing JSON with Google sheets but are unlikely to exist in more generic integration tools. (This remains to be validated.)
+- 
+
+## Getting Started
 This project assumes a working git and GitHub environment, and uses the following command line tools:
 - [curl](https://curl.se/)
 - [gh](https://cli.github.com/)
 - [jq](https://jqlang.org/download/)
 - `sed` and `tr`
 
-## Install shell scripts
+### Install shell scripts
 - Copy the shell scripts (or everything from this repo) into the root of your repo
 
-## Prepare Google sheet and install Apps script
+### Prepare Google sheet and install Apps script
 - Go to sheets.google.com, create new spreadsheet and name it.
 - Share with edit access for “Anyone with the link”.
 - Leave the sheet empty for automatic header-row creation on first sync.
@@ -116,7 +128,13 @@ $ ./sheet sync
 - NOTE: There is currently no access control on the apps script.
 
 ## Creating Test PRs
-Use the `create-pr` script to create test pull requests - examples:
+Use the `create-pr` script to create test pull requests.
+
+The script must be run from the `main` branch and creates:
+- A new branch with the specified name (plus `_n` suffix for multiple PRs)
+- A text file containing the branch name
+- A commit and push to origin
+- A GitHub pull request
 
 ```bash
 # Creates one PR: test-pr
@@ -126,14 +144,9 @@ Use the `create-pr` script to create test pull requests - examples:
 ./create-pr test-batch 3
 ```
 
-The script must be run from the `main` branch and creates:
-- A new branch with the specified name (plus `_n` suffix for multiple PRs)
-- A text file containing the branch name
-- A commit and push to origin
-- A GitHub pull request
 
 ## Listing PRs
-Use the `list-prs` script to list all PRs (up to 1000)
+Use the `list-prs` script to list all PRs (up to 1000). Outputs ID, state, title, isDraft, createdAt, updatedAt, and url for all PRs (including closed/merged ones).
 
 ```bash
 # Tab-separated format with header row
@@ -143,10 +156,8 @@ Use the `list-prs` script to list all PRs (up to 1000)
 ./list-prs --json
 ```
 
-Outputs ID, state, title, isDraft, createdAt, updatedAt, and url for all PRs (including closed/merged ones).
-
 ## Closing PRs
-Use the `close-pr` script to close PRs
+Use the `close-pr` script to close PRs. The script deletes the branch after closing the PR using the `-d` flag.
 
 ```bash
 # Close a specific PR by number
@@ -159,7 +170,11 @@ Use the `close-pr` script to close PRs
 ./close-pr --all
 ```
 
-The script deletes the branch after closing the PR using the `-d` flag.
 
 ## Next steps
+- Evaluate off-the-shelf general-purpose MCP servers for Google and GitHub in an AI Chat client.
+- Compare results with a custom MCP server specifically tailored to integrate with Google sheets.
+- Explore alternative low-code integration tools like Zapier and n8n.
+
+### Google Apps add-on
 It would be nice to publish the Google Apps script as an add-on for easy installation. The Apps script could be extended to fetch PR data using the GitHub API instead of depending on separate shell scripts (how to do GitHub auth is tbd.) The addition of an add-on sidebar UI, would make this utility installable on any sheet with just a few clicks.
