@@ -1,5 +1,5 @@
-# Google Sheet GitHub PR sync
-This is a case study of using shell scripts and a Google Apps script to sync GitHub PRs with a Google sheet.
+# google-sheet-pr-sync
+This is the companion repo to the blog post [Syncing GitHub PRs with a Google Sheet](https://jldec.me/blog/using-ai-to-sync-github-prs-with-google-sheets).
 
 ## How it works
 Shell scripts [create-pr](https://github.com/jldec/google-sheet-pr-sync/blob/main/create-pr), [close-pr](https://github.com/jldec/google-sheet-pr-sync/blob/main/close-pr), and [list-prs](https://github.com/jldec/google-sheet-pr-sync/blob/main/list-prs) use git and the [gh CLI](https://cli.github.com/) to manipulate PRs from within the cloned repo directory. Only `list-prs` is required for sync'ing.
